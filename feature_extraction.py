@@ -62,5 +62,5 @@ def extracting_features():
 
     return window_features
 
-# extracting_features()
+extracting_features()
 
