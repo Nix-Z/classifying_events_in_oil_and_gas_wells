@@ -41,4 +41,4 @@ def load_and_process_merged_data():
   
     return data
 
-# load_and_process_merged_data()
+load_and_process_merged_data()
