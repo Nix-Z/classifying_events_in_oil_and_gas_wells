@@ -1,0 +1,48 @@
+pipeline{
+    agent any
+
+    stages{
+        stage("Install Dependencies"){
+            steps{
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+        stage("Extract and Process Data"){
+            steps{
+                sh 'python3 data_extraction.py'
+            }
+        }
+        stage("Extract Features"){
+            steps{
+                sh 'python3 feature_extraction.py'
+            }
+        }
+        stage("Data Analysis"){
+            steps{
+                sh 'python3 data_analysis.py'
+            }
+        }
+        stage("Data Preprocessing"){
+            steps{
+                sh 'python3 data_preprocess.py'
+            }
+        }
+        stage("Data Visualization"){
+            steps{
+                sh 'python3 datavisualization.py'
+            }
+        }
+        stage("Feature Engineering"){
+            steps{
+                sh 'python3 feature_engineering.py'
+            }
+        }
+    }
+    post{
+       
+        always {
+            archiveArtifacts artifacts: 'gas_well_events_cleansed_data.csv', onlyIfSuccessful: true
+        }
+            }
+        
+}
