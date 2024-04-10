@@ -14,6 +14,8 @@ def engineer_features():
     y.reset_index(drop=True, inplace=True)  # Reset index of the target variable
     scaled_data['class'] = y
 
+    data.to_csv('gas_well_events_cleansed_data.csv', index=False)
+
     return scaled_data
 
 # engineer_features()
