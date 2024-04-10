@@ -15,8 +15,8 @@ def visualize_data():
     print(corr_data_num)
     fig_1 = px.imshow(corr_data_num, labels=dict(color="Correlation"), text_auto=True, x=corr_data_num.columns,
                       y=corr_data_num.index, template='plotly_dark')
-    #fig_1.show()
-    #fig_1.write_image('fig_1.jpg')
+    fig_1.show()
+    fig_1.write_image('fig_1.jpg')
 
     # Creates pie chart to show the distribution of events
     class_counts = data['class'].value_counts().reset_index()
@@ -33,9 +33,9 @@ def visualize_data():
     class_counts['class'] = class_counts['class'].map(key_names)
     fig_2 = px.pie(class_counts, names='class', values='count', title='Distribution of Events',
                    template='plotly_dark')
-    #fig_2.show()
-    #fig_2.write_image('fig_2.jpg')
+    fig_2.show()
+    fig_2.write_image('fig_2.jpg')
 
     return data
 
-# visualize_data()
+visualize_data()
