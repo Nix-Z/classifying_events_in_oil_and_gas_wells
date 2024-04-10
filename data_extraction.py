@@ -1,5 +1,6 @@
 import pandas as pd
 import boto3
+import requests
 import os
 
 def load_and_process_merged_data():
