@@ -1,9 +1,21 @@
 import pandas as pd
+import boto3
 import os
 
 def load_and_process_merged_data():
     print("Loading CSV...")
-    data = pd.read_csv("merged_data.csv")
+    # data = pd.read_csv("merged_data.csv")
+    s3 = boto3.client('s3')
+    bucket_name = 'usecases-data'
+    url = s3.generate_presigned_url(
+                    ClientMethod='get_object',
+                    Params={'Bucket': bucket_name, 'Key': 'merged_data.csv.zip'},
+                    ExpiresIn=7200  # URL expiration time in seconds (adjust as needed)
+                )
+    print(url)
+    url_response = requests.get(url)
+    with zipfile.ZipFile(BytesIO(url_response.content)) as z:
+        z.extractall('.')
     print("Loaded CSV!")
 
     # Convert timestamp from object to datetime
