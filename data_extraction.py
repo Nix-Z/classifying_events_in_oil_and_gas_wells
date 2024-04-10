@@ -3,11 +3,9 @@ import boto3
 import requests
 from io import BytesIO
 import zipfile
-import os
 
 def load_and_process_merged_data():
     print("Loading CSV...")
-    # data = pd.read_csv("merged_data.csv")
     s3 = boto3.client('s3')
     bucket_name = 'usecases-data'
     url = s3.generate_presigned_url(
@@ -18,7 +16,9 @@ def load_and_process_merged_data():
     print(url)
     url_response = requests.get(url)
     with zipfile.ZipFile(BytesIO(url_response.content)) as z:
-        z.extractall('.')
+        with z.open('merged_data.csv') as f:
+            data = pd.read_csv(f)
+
     print("Loaded CSV!")
 
     # Convert timestamp from object to datetime
@@ -33,7 +33,7 @@ def load_and_process_merged_data():
     # Convert class from float to int
     data['class'] = data['class'].astype(int, copy=False)
 
-    # Drop rows with steady faulty states, except events 3 and 4 which are continously in transient faulty states
+    # Drop rows with steady faulty states, except events 3 and 4 which are continuously in transient faulty states
     values = [1, 2, 5, 6, 8]
     data = data[~data['class'].isin(values)]
 
